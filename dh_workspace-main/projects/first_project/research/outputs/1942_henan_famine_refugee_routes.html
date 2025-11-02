@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_1f96211552a5ed5c8f45753e8b560a64 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.css"/>
+</head>
+<body>
+    
+    
+    <div style="position: fixed; 
+                 top: 10px; left: 50px; width: 300px; height: 200px; 
+                 background-color: white; border:2px solid grey; z-index:9999; 
+                 font-size:14px; padding: 10px">
+    <h3>1942年河南饥荒难民逃难路线</h3>
+    <p><b>历史背景：</b><br>
+    1942年河南遭受严重旱灾，叠加战乱和腐败，引发大饥荒。<br>
+    约300万人死亡，数百万人逃离家园。</p>
+    <p><b>主要受灾地区：</b><br>
+    • 河南中西部（周口、开封、郑州等）<br>
+    • 灾情最重地区死亡率高达20-30%</p>
+    <p><b>逃难方向：</b><br>
+    • 南下安徽、湖北<br>
+    • 西去陕西<br>
+    • 少数向东逃难</p>
+    </div>
+    
+    
+    <div style="position: fixed; 
+                bottom: 50px; left: 50px; width: 200px; height: 120px; 
+                background-color: white; border:2px solid grey; z-index:9999; 
+                font-size:12px; padding: 10px">
+    <h4>逃难路线图例</h4>
+    <p><i class="fa fa-circle" style="color:red"></i> 周口→安徽<br>
+    <i class="fa fa-circle" style="color:blue"></i> 开封→洛阳<br>
+    <i class="fa fa-circle" style="color:orange"></i> 商丘→淮南<br>
+    <i class="fa fa-circle" style="color:purple"></i> 南阳→武汉<br>
+    <i class="fa fa-circle" style="color:green"></i> 洛阳→西安</p>
+    </div>
+    
+    
+            <div class="folium-map" id="map_1f96211552a5ed5c8f45753e8b560a64" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_1f96211552a5ed5c8f45753e8b560a64 = L.map(
+                "map_1f96211552a5ed5c8f45753e8b560a64",
+                {
+                    center: [34.7466, 113.6254],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 8,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_46be6b7ca6787d753871eef3f64056c2 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_46be6b7ca6787d753871eef3f64056c2.addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var marker_335f57ee1cae1ed6d22ba82d441491db = L.marker(
+                [33.6373, 114.6434],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_cb21431ee89553ac02f195e4d0132b80 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_bda2a57c6b68cfa24e06312020edc4c7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ba5ade246facb95bc31a401655c77214 = $(`<div id="html_ba5ade246facb95bc31a401655c77214" style="width: 100.0%; height: 100.0%;"><b>河南周口</b><br>1942年河南饥荒受灾地/逃难目的地</div>`)[0];
+                popup_bda2a57c6b68cfa24e06312020edc4c7.setContent(html_ba5ade246facb95bc31a401655c77214);
+            
+        
+
+        marker_335f57ee1cae1ed6d22ba82d441491db.bindPopup(popup_bda2a57c6b68cfa24e06312020edc4c7)
+        ;
+
+        
+    
+    
+            marker_335f57ee1cae1ed6d22ba82d441491db.bindTooltip(
+                `<div>
+                     河南周口
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_335f57ee1cae1ed6d22ba82d441491db.setIcon(icon_cb21431ee89553ac02f195e4d0132b80);
+            
+    
+            var marker_56cb256575d0d673ebc09c176e0b57a7 = L.marker(
+                [34.46, 115.65],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_714ea8a8fc2ce8ed15b1ddd189e7ac5d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c5b8640f797f9a90e5f8e841324431d1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_28fb8ae8ff44bdef5bb721190a351639 = $(`<div id="html_28fb8ae8ff44bdef5bb721190a351639" style="width: 100.0%; height: 100.0%;"><b>河南商丘</b><br>1942年河南饥荒受灾地/逃难目的地</div>`)[0];
+                popup_c5b8640f797f9a90e5f8e841324431d1.setContent(html_28fb8ae8ff44bdef5bb721190a351639);
+            
+        
+
+        marker_56cb256575d0d673ebc09c176e0b57a7.bindPopup(popup_c5b8640f797f9a90e5f8e841324431d1)
+        ;
+
+        
+    
+    
+            marker_56cb256575d0d673ebc09c176e0b57a7.bindTooltip(
+                `<div>
+                     河南商丘
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_56cb256575d0d673ebc09c176e0b57a7.setIcon(icon_714ea8a8fc2ce8ed15b1ddd189e7ac5d);
+            
+    
+            var marker_a6536419bb85865a7358c56829c48b89 = L.marker(
+                [34.8, 114.3],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_2932058c75b92a9401bbbcf4d66bc98d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4e62d342997914e719c75aeed167c546 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_76d94b2ad87acdb923dd3ce5ae3b481d = $(`<div id="html_76d94b2ad87acdb923dd3ce5ae3b481d" style="width: 100.0%; height: 100.0%;"><b>河南开封</b><br>1942年河南饥荒受灾地/逃难目的地</div>`)[0];
+                popup_4e62d342997914e719c75aeed167c546.setContent(html_76d94b2ad87acdb923dd3ce5ae3b481d);
+            
+        
+
+        marker_a6536419bb85865a7358c56829c48b89.bindPopup(popup_4e62d342997914e719c75aeed167c546)
+        ;
+
+        
+    
+    
+            marker_a6536419bb85865a7358c56829c48b89.bindTooltip(
+                `<div>
+                     河南开封
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a6536419bb85865a7358c56829c48b89.setIcon(icon_2932058c75b92a9401bbbcf4d66bc98d);
+            
+    
+            var marker_48a773d952b8641d464338b29b7e730d = L.marker(
+                [34.7466, 113.6254],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_e1524df4ed12896455f7fe7a032709c7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e28acdd6c3ee4efe4798deb441e1d90e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_08a62f6a2590531a9b6ad4a3b8a1db22 = $(`<div id="html_08a62f6a2590531a9b6ad4a3b8a1db22" style="width: 100.0%; height: 100.0%;"><b>河南郑州</b><br>1942年河南饥荒受灾地/逃难目的地</div>`)[0];
+                popup_e28acdd6c3ee4efe4798deb441e1d90e.setContent(html_08a62f6a2590531a9b6ad4a3b8a1db22);
+            
+        
+
+        marker_48a773d952b8641d464338b29b7e730d.bindPopup(popup_e28acdd6c3ee4efe4798deb441e1d90e)
+        ;
+
+        
+    
+    
+            marker_48a773d952b8641d464338b29b7e730d.bindTooltip(
+                `<div>
+                     河南郑州
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_48a773d952b8641d464338b29b7e730d.setIcon(icon_e1524df4ed12896455f7fe7a032709c7);
+            
+    
+            var marker_c6d852381f90f9abfe18562f9b6b1691 = L.marker(
+                [34.6833, 112.4667],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_622eacf48b6ae9dcb0493bc27e3c99ab = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d5db0516a579722aed2ed903ed1d47d9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_82db150d1565948a53352b4f66b8eb5e = $(`<div id="html_82db150d1565948a53352b4f66b8eb5e" style="width: 100.0%; height: 100.0%;"><b>河南洛阳</b><br>1942年河南饥荒受灾地/逃难目的地</div>`)[0];
+                popup_d5db0516a579722aed2ed903ed1d47d9.setContent(html_82db150d1565948a53352b4f66b8eb5e);
+            
+        
+
+        marker_c6d852381f90f9abfe18562f9b6b1691.bindPopup(popup_d5db0516a579722aed2ed903ed1d47d9)
+        ;
+
+        
+    
+    
+            marker_c6d852381f90f9abfe18562f9b6b1691.bindTooltip(
+                `<div>
+                     河南洛阳
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c6d852381f90f9abfe18562f9b6b1691.setIcon(icon_622eacf48b6ae9dcb0493bc27e3c99ab);
+            
+    
+            var marker_420fceb9ac332fc70cc2b00245843cbf = L.marker(
+                [32.9833, 112.5333],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_06402eb526c25a1c8dea0c5c21ef593d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8ffd139e32802c2df29a4f60201e7ce6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c6741de754bf68ad6dfe545732790998 = $(`<div id="html_c6741de754bf68ad6dfe545732790998" style="width: 100.0%; height: 100.0%;"><b>河南南阳</b><br>1942年河南饥荒受灾地/逃难目的地</div>`)[0];
+                popup_8ffd139e32802c2df29a4f60201e7ce6.setContent(html_c6741de754bf68ad6dfe545732790998);
+            
+        
+
+        marker_420fceb9ac332fc70cc2b00245843cbf.bindPopup(popup_8ffd139e32802c2df29a4f60201e7ce6)
+        ;
+
+        
+    
+    
+            marker_420fceb9ac332fc70cc2b00245843cbf.bindTooltip(
+                `<div>
+                     河南南阳
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_420fceb9ac332fc70cc2b00245843cbf.setIcon(icon_06402eb526c25a1c8dea0c5c21ef593d);
+            
+    
+            var marker_aa63f0fb8516f661e0e2151829679564 = L.marker(
+                [32.1333, 114.0667],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_2e28fdb6d79ae6beb34cbf9ffebcb671 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d4799acdc4dada18a8fbae12339dfc36 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_24b87d8bddfa632100ea121227a95b16 = $(`<div id="html_24b87d8bddfa632100ea121227a95b16" style="width: 100.0%; height: 100.0%;"><b>河南信阳</b><br>1942年河南饥荒受灾地/逃难目的地</div>`)[0];
+                popup_d4799acdc4dada18a8fbae12339dfc36.setContent(html_24b87d8bddfa632100ea121227a95b16);
+            
+        
+
+        marker_aa63f0fb8516f661e0e2151829679564.bindPopup(popup_d4799acdc4dada18a8fbae12339dfc36)
+        ;
+
+        
+    
+    
+            marker_aa63f0fb8516f661e0e2151829679564.bindTooltip(
+                `<div>
+                     河南信阳
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_aa63f0fb8516f661e0e2151829679564.setIcon(icon_2e28fdb6d79ae6beb34cbf9ffebcb671);
+            
+    
+            var marker_432e59f0e1043c29ffa9b714d14e04ea = L.marker(
+                [32.9, 115.7667],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_2eae52602dc443c82c956d9067fc47aa = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1a89b888c1e1b8677a65122f98b17e00 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e7783bba2c2c4cd3d6791d49ab1673dd = $(`<div id="html_e7783bba2c2c4cd3d6791d49ab1673dd" style="width: 100.0%; height: 100.0%;"><b>安徽阜阳</b><br>1942年河南饥荒受灾地/逃难目的地</div>`)[0];
+                popup_1a89b888c1e1b8677a65122f98b17e00.setContent(html_e7783bba2c2c4cd3d6791d49ab1673dd);
+            
+        
+
+        marker_432e59f0e1043c29ffa9b714d14e04ea.bindPopup(popup_1a89b888c1e1b8677a65122f98b17e00)
+        ;
+
+        
+    
+    
+            marker_432e59f0e1043c29ffa9b714d14e04ea.bindTooltip(
+                `<div>
+                     安徽阜阳
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_432e59f0e1043c29ffa9b714d14e04ea.setIcon(icon_2eae52602dc443c82c956d9067fc47aa);
+            
+    
+            var marker_41472be54f4f22f495842662144d00ee = L.marker(
+                [32.6333, 116.9833],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_549d064a7f78b43cd1c7ebd2d7cc6e95 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1b3e5993e4c1eb1a5400129f1ab60324 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7d8a7f0a1787a84d9a54c3ac9a2c42a4 = $(`<div id="html_7d8a7f0a1787a84d9a54c3ac9a2c42a4" style="width: 100.0%; height: 100.0%;"><b>安徽淮南</b><br>1942年河南饥荒受灾地/逃难目的地</div>`)[0];
+                popup_1b3e5993e4c1eb1a5400129f1ab60324.setContent(html_7d8a7f0a1787a84d9a54c3ac9a2c42a4);
+            
+        
+
+        marker_41472be54f4f22f495842662144d00ee.bindPopup(popup_1b3e5993e4c1eb1a5400129f1ab60324)
+        ;
+
+        
+    
+    
+            marker_41472be54f4f22f495842662144d00ee.bindTooltip(
+                `<div>
+                     安徽淮南
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_41472be54f4f22f495842662144d00ee.setIcon(icon_549d064a7f78b43cd1c7ebd2d7cc6e95);
+            
+    
+            var marker_89c42393bd78637f600668a81c2a5d45 = L.marker(
+                [30.5928, 114.3055],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_b4b3210cd68ddf0345323bb98f9b081e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ab11ad0e39b1cdc4b330a15b031dd82c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_28e24ced3cb81d348d9c253409e64946 = $(`<div id="html_28e24ced3cb81d348d9c253409e64946" style="width: 100.0%; height: 100.0%;"><b>湖北武汉</b><br>1942年河南饥荒受灾地/逃难目的地</div>`)[0];
+                popup_ab11ad0e39b1cdc4b330a15b031dd82c.setContent(html_28e24ced3cb81d348d9c253409e64946);
+            
+        
+
+        marker_89c42393bd78637f600668a81c2a5d45.bindPopup(popup_ab11ad0e39b1cdc4b330a15b031dd82c)
+        ;
+
+        
+    
+    
+            marker_89c42393bd78637f600668a81c2a5d45.bindTooltip(
+                `<div>
+                     湖北武汉
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_89c42393bd78637f600668a81c2a5d45.setIcon(icon_b4b3210cd68ddf0345323bb98f9b081e);
+            
+    
+            var marker_d2e9a0672cffafba11a83fd1a1bdeeab = L.marker(
+                [34.2667, 108.9],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_207c1a2e335e237f194ef82623e52fc7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7e26bef37580f17c1f85884a435fca1b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e6f4cf7684065a46631b3a0711ddb791 = $(`<div id="html_e6f4cf7684065a46631b3a0711ddb791" style="width: 100.0%; height: 100.0%;"><b>陕西西安</b><br>1942年河南饥荒受灾地/逃难目的地</div>`)[0];
+                popup_7e26bef37580f17c1f85884a435fca1b.setContent(html_e6f4cf7684065a46631b3a0711ddb791);
+            
+        
+
+        marker_d2e9a0672cffafba11a83fd1a1bdeeab.bindPopup(popup_7e26bef37580f17c1f85884a435fca1b)
+        ;
+
+        
+    
+    
+            marker_d2e9a0672cffafba11a83fd1a1bdeeab.bindTooltip(
+                `<div>
+                     陕西西安
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d2e9a0672cffafba11a83fd1a1bdeeab.setIcon(icon_207c1a2e335e237f194ef82623e52fc7);
+            
+    
+            var poly_line_2bb135b4920b8c01e6e44c7eea7b7ed0 = L.polyline(
+                [[33.6373, 114.6434], [32.9, 115.7667]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+        var popup_f237ca45e865521959efbd8f56b728db = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5b927fe6281856248be4011adeba3c97 = $(`<div id="html_5b927fe6281856248be4011adeba3c97" style="width: 100.0%; height: 100.0%;"><b>周口→安徽阜阳</b><br>难民逃难路线</div>`)[0];
+                popup_f237ca45e865521959efbd8f56b728db.setContent(html_5b927fe6281856248be4011adeba3c97);
+            
+        
+
+        poly_line_2bb135b4920b8c01e6e44c7eea7b7ed0.bindPopup(popup_f237ca45e865521959efbd8f56b728db)
+        ;
+
+        
+    
+    
+            var poly_line_40f486d3a076ac43c1fdba66b757dc96 = L.polyline(
+                [[34.8, 114.3], [34.7466, 113.6254], [34.6833, 112.4667]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+        var popup_c50c4b24f8a0b14f72454976c091737e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_836af163489bc2dce4f509b9da5a56a8 = $(`<div id="html_836af163489bc2dce4f509b9da5a56a8" style="width: 100.0%; height: 100.0%;"><b>开封→郑州→洛阳</b><br>难民逃难路线</div>`)[0];
+                popup_c50c4b24f8a0b14f72454976c091737e.setContent(html_836af163489bc2dce4f509b9da5a56a8);
+            
+        
+
+        poly_line_40f486d3a076ac43c1fdba66b757dc96.bindPopup(popup_c50c4b24f8a0b14f72454976c091737e)
+        ;
+
+        
+    
+    
+            var poly_line_959ebfbd4de428061be1cf234164147e = L.polyline(
+                [[34.46, 115.65], [32.6333, 116.9833]],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "orange", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+        var popup_fce323756bf3dc3d55d776c57790ee74 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_70b2f6cc5b8a3fc8d42e4399ecb61bab = $(`<div id="html_70b2f6cc5b8a3fc8d42e4399ecb61bab" style="width: 100.0%; height: 100.0%;"><b>商丘→淮南</b><br>难民逃难路线</div>`)[0];
+                popup_fce323756bf3dc3d55d776c57790ee74.setContent(html_70b2f6cc5b8a3fc8d42e4399ecb61bab);
+            
+        
+
+        poly_line_959ebfbd4de428061be1cf234164147e.bindPopup(popup_fce323756bf3dc3d55d776c57790ee74)
+        ;
+
+        
+    
+    
+            var poly_line_117c569710892d5b9ebdb857be15435b = L.polyline(
+                [[32.9833, 112.5333], [32.1333, 114.0667], [30.5928, 114.3055]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+        var popup_3dc928ea66355b77ef66991c9e089212 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f4716085dbcee278ff630fe22cc9972c = $(`<div id="html_f4716085dbcee278ff630fe22cc9972c" style="width: 100.0%; height: 100.0%;"><b>南阳→信阳→武汉</b><br>难民逃难路线</div>`)[0];
+                popup_3dc928ea66355b77ef66991c9e089212.setContent(html_f4716085dbcee278ff630fe22cc9972c);
+            
+        
+
+        poly_line_117c569710892d5b9ebdb857be15435b.bindPopup(popup_3dc928ea66355b77ef66991c9e089212)
+        ;
+
+        
+    
+    
+            var poly_line_a6585bf1ef7602ea6f08ffff52306102 = L.polyline(
+                [[34.6833, 112.4667], [34.2667, 108.9]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+        var popup_006abda970029c2d92c8deac4e463548 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e6d994c35a8b2a5867f52cd26d4fb138 = $(`<div id="html_e6d994c35a8b2a5867f52cd26d4fb138" style="width: 100.0%; height: 100.0%;"><b>洛阳→西安</b><br>难民逃难路线</div>`)[0];
+                popup_006abda970029c2d92c8deac4e463548.setContent(html_e6d994c35a8b2a5867f52cd26d4fb138);
+            
+        
+
+        poly_line_a6585bf1ef7602ea6f08ffff52306102.bindPopup(popup_006abda970029c2d92c8deac4e463548)
+        ;
+
+        
+    
+    
+            var marker_caefac13b399bb5b80a9ed39db00ce44 = L.marker(
+                [34.7466, 113.6254],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_e0ac36c1b48d9c9828ca0eb680378e94 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkred",
+  "iconColor": "white",
+  "icon": "exclamation-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9644ccb36bba6a6d3134f2428507eb15 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_75f0370392fed922908dec34242a3cce = $(`<div id="html_75f0370392fed922908dec34242a3cce" style="width: 100.0%; height: 100.0%;">             <div style="max-width: 300px;">             <h4>郑州 - 河南饥荒中心</h4>             <p><b>1942年统计：</b></p>             <ul>                 <li>河南全省死亡约300万人</li>                 <li>郑州地区死亡率约25%</li>                 <li>粮食产量骤减90%</li>                 <li>每日口粮不足300克</li>             </ul>             <p><b>逃难情况：</b><br>             数万难民从郑州向四面八方逃散</p>             </div>             </div>`)[0];
+                popup_9644ccb36bba6a6d3134f2428507eb15.setContent(html_75f0370392fed922908dec34242a3cce);
+            
+        
+
+        marker_caefac13b399bb5b80a9ed39db00ce44.bindPopup(popup_9644ccb36bba6a6d3134f2428507eb15)
+        ;
+
+        
+    
+    
+            marker_caefac13b399bb5b80a9ed39db00ce44.bindTooltip(
+                `<div>
+                     郑州
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_caefac13b399bb5b80a9ed39db00ce44.setIcon(icon_e0ac36c1b48d9c9828ca0eb680378e94);
+            
+    
+            var marker_11c26129d6db1661b57279ae8572cc8d = L.marker(
+                [33.6373, 114.6434],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_1d7ddd62f7bfb91e76687e9c30a8a516 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkred",
+  "iconColor": "white",
+  "icon": "exclamation-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b630f111bd4625a559a2400688d057ef = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_d9eaaae86c53daf2bebd3b05c9dd4f81 = $(`<div id="html_d9eaaae86c53daf2bebd3b05c9dd4f81" style="width: 100.0%; height: 100.0%;">             <div style="max-width: 300px;">             <h4>周口 - 重灾区</h4>             <p><b>灾情描述：</b></p>             <ul>                 <li>1942年夏秋大旱，无雨数月</li>                 <li>麦收绝收，秋粮颗粒无收</li>                 <li>出现人吃人现象</li>                 <li>大量难民南逃安徽</li>             </ul>             <p><i>"田野遍地饿殍，路无行人"</i><br>             - 当时目击者记录</p>             </div>             </div>`)[0];
+                popup_b630f111bd4625a559a2400688d057ef.setContent(html_d9eaaae86c53daf2bebd3b05c9dd4f81);
+            
+        
+
+        marker_11c26129d6db1661b57279ae8572cc8d.bindPopup(popup_b630f111bd4625a559a2400688d057ef)
+        ;
+
+        
+    
+    
+            marker_11c26129d6db1661b57279ae8572cc8d.bindTooltip(
+                `<div>
+                     周口
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_11c26129d6db1661b57279ae8572cc8d.setIcon(icon_1d7ddd62f7bfb91e76687e9c30a8a516);
+            
+    
+            var marker_727f60737f2127f242c1941e50b01ac0 = L.marker(
+                [32.9, 115.7667],
+                {
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var icon_a3ad7692d93cfbe5cb3aca8f75605f4b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkred",
+  "iconColor": "white",
+  "icon": "exclamation-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_804b819edcc2e334a74704a611465af7 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_cde1a02f7f698d8d00fde95ff9327ac5 = $(`<div id="html_cde1a02f7f698d8d00fde95ff9327ac5" style="width: 100.0%; height: 100.0%;">             <div style="max-width: 300px;">             <h4>安徽阜阳 - 主要逃难地</h4>             <p><b>接收难民情况：</b></p>             <ul>                 <li>接收河南难民数十万人</li>                 <li>本地也面临粮食短缺</li>                 <li>难民营条件恶劣</li>                 <li>疾病流行严重</li>             </ul>             <p><b>历史记录：</b><br>             "河南难民源源不断涌入，沿途饿死无数"</p>             </div>             </div>`)[0];
+                popup_804b819edcc2e334a74704a611465af7.setContent(html_cde1a02f7f698d8d00fde95ff9327ac5);
+            
+        
+
+        marker_727f60737f2127f242c1941e50b01ac0.bindPopup(popup_804b819edcc2e334a74704a611465af7)
+        ;
+
+        
+    
+    
+            marker_727f60737f2127f242c1941e50b01ac0.bindTooltip(
+                `<div>
+                     安徽阜阳
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_727f60737f2127f242c1941e50b01ac0.setIcon(icon_a3ad7692d93cfbe5cb3aca8f75605f4b);
+            
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_1f96211552a5ed5c8f45753e8b560a64);
+        
+    
+            var measure_control_c8c90dfaab36557765d3237439af141a = new L.Control.Measure(
+                {
+  "position": "topright",
+  "primaryLengthUnit": "meters",
+  "secondaryLengthUnit": "miles",
+  "primaryAreaUnit": "sqmeters",
+  "secondaryAreaUnit": "acres",
+});
+            map_1f96211552a5ed5c8f45753e8b560a64.addControl(measure_control_c8c90dfaab36557765d3237439af141a);
+
+            // Workaround for using this plugin with Leaflet>=1.8.0
+            // https://github.com/ljagis/leaflet-measure/issues/171
+            L.Control.Measure.include({
+                _setCaptureMarkerIcon: function () {
+                    // disable autopan
+                    this._captureMarker.options.autoPanOnFocus = false;
+                    // default function
+                    this._captureMarker.setIcon(
+                        L.divIcon({
+                            iconSize: this._map.getSize().multiplyBy(2)
+                        })
+                    );
+                },
+            });
+
+        
+</script>
+</html>
